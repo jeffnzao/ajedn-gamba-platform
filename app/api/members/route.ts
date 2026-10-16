@@ -13,6 +13,16 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+    
+    
+    const existingUser = await prisma.user.findUnique({
+      where: { email: body.email }
+    });
+
+    if (existingUser) {
+      return NextResponse.json({ success: false, error: 'Cet email est déjà enregistré.' }, { status: 400 });
+    }
+
     const newMember = await prisma.user.create({
       data: {
         email: body.email,
@@ -22,8 +32,10 @@ export async function POST(request: Request) {
         whatsapp: body.whatsapp,
         residence: body.residence || 'Gamba',
         isDiaspora: body.isDiaspora || false,
+        bio: body.bio || '',
       },
     });
+    
     return NextResponse.json({ success: true, data: newMember });
   } catch (error) {
     return NextResponse.json({ success: false, error: 'Erreur lors de la création du membre' }, { status: 400 });
