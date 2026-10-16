@@ -1,69 +1,42 @@
-import Image from "next/image";
+import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen bg-slate-50 text-slate-900">
+      <div className="bg-blue-900 text-white py-20 px-6 text-center">
+        <h1 className="text-4xl font-extrabold mb-4">AJEDN - Gamba</h1>
+        <p className="text-xl max-w-2xl mx-auto mb-8">
+          Association des Jeunes Entrepreneurs du Département de Ndougou. « C'est dans l'unité que nous vaincrons[cite: 6]. »
+        </p>
+        <div className="flex justify-center gap-4">
+          <Link href="/dashboard/user" className="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-lg shadow">
+            Espace Membre
+          </Link>
+          <Link href="/dashboard/admin" className="bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-lg shadow">
+            Administration (Bureau)
+          </Link>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </div>
+
+      <section className="max-w-6xl mx-auto py-16 px-6">
+        <h2 className="text-2xl font-bold mb-6 text-blue-900 border-b-2 border-amber-500 pb-2">
+          Synergie Locale & Projets Mairie 2026
+        </h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          <div className="bg-white p-6 rounded-xl shadow border border-slate-200">
+            <h3 className="font-bold text-lg mb-2 text-blue-800">Marché du Littoral</h3>
+            <p className="text-sm text-slate-600">Construction de 6 box, hangar pour pêcheurs et réfection des installations électriques et sanitaires[cite: 2].</p>
+          </div>
+          <div className="bg-white p-6 rounded-xl shadow border border-slate-200">
+            <h3 className="font-bold text-lg mb-2 text-blue-800">Espace Coworking Gamba</h3>
+            <p className="text-sm text-slate-600">Accès haut débit, postes de travail et accompagnement aux appels d'offres pour les jeunes entrepreneurs[cite: 21].</p>
+          </div>
+          <div className="bg-white p-6 rounded-xl shadow border border-slate-200">
+            <h3 className="font-bold text-lg mb-2 text-blue-800">Banque de Talents & Diaspora</h3>
+            <p className="text-sm text-slate-600">Recensement des compétences locales et internationales pour répondre aux campagnes de recrutement à Gamba.</p>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+    </main>
   );
 }

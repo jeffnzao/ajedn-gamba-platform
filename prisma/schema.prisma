@@ -1,0 +1,74 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ADMIN
+  BUREAU
+  MEMBRE_ACTIF
+  MEMBRE_DROIT
+  SYMPATHISANT
+}
+
+enum StatusCotisation {
+  A_JOUR
+  EN_RETARD
+  EXEMPTE
+}
+
+model User {
+  id            String           @id @default(cuid())
+  email         String           @unique
+  firstName     String
+  lastName      String
+  phone         String?
+  whatsapp      String?
+  residence     String           @default("Gamba")
+  isDiaspora    Boolean          @default(false)
+  role          Role             @default(SYMPATHISANT)
+  statutCotiz   StatusCotisation @default(EN_RETARD)
+  bio           String?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  contributions Contribution[]
+  projects      Project[]        @relation("ProjectOwner")
+
+  @@map("ajedn_users")
+}
+
+model Contribution {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount        Float    @default(5000)
+  month         String
+  paid          Boolean  @default(false)
+  paymentDate   DateTime?
+  receiptRef    String?
+
+  createdAt     DateTime @default(now())
+
+  @@map("ajedn_contributions")
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  category    String
+  status      String   @default("En cours")
+  budget      Float?
+  ownerId     String?
+  owner       User?    @relation("ProjectOwner", fields: [ownerId], references: [id])
+  location    String   @default("Gamba")
+
+  createdAt   DateTime @default(now())
+
+  @@map("ajedn_projects")
+}
