@@ -1,8 +1,20 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@supabase/supabase-js';
 
 export async function POST(request: Request) {
   try {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!supabaseUrl || !supabaseKey) {
+      return NextResponse.json(
+        { success: false, error: 'Les variables Supabase ne sont pas configurées sur le serveur.' },
+        { status: 500 }
+      );
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
     const formData = await request.formData();
     const file = formData.get('file') as File;
     const bucket = (formData.get('bucket') as string) || 'attachments';
@@ -11,16 +23,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Aucun fichier fourni' }, { status: 400 });
     }
 
-    // Nom de fichier unique
     const fileExt = file.name.split('.').pop();
     const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
     const filePath = `${fileName}`;
 
-    // Conversion du fichier en Buffer
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    // Téléversement vers Supabase Storage
     const { data, error } = await supabase.storage
       .from(bucket)
       .upload(filePath, buffer, {
@@ -29,11 +38,9 @@ export async function POST(request: Request) {
       });
 
     if (error) {
-      // Si le bucket n'existe pas ou n'est pas public, renvoyer l'erreur explicite
       return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
 
-    // Récupération de l'URL publique du fichier
     const { data: publicUrlData } = supabase.storage
       .from(bucket)
       .getPublicUrl(filePath);
