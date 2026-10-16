@@ -9,6 +9,12 @@ export default function Navbar() {
           AJEDN - Gamba
         </Link>
         <div className="flex gap-6 text-sm items-center">
+          <Link href="/annuaire" className="hover:text-amber-400 transition-colors">
+            Annuaire & Talents
+          </Link>
+          <Link href="/annonces" className="hover:text-amber-400 transition-colors">
+            Offres & Annonces
+          </Link>
           <Link href="/projets-mairie" className="hover:text-amber-400 transition-colors">
             Projets Mairie 2026
           </Link>

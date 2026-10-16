@@ -21,6 +21,22 @@ enum StatusCotisation {
   EXEMPTE
 }
 
+enum UserType {
+  ENTREPRENEUR
+  SALARIE
+  DEMANDEUR_EMPLOI
+  ETUDIANT
+  AUTRE
+}
+
+enum PostCategory {
+  ANNONCE
+  OFFRE_EMPLOI
+  OFFRE_SOUS_TRAITANCE
+  COMMUNICATION
+  EVENEMENT
+}
+
 model User {
   id            String           @id @default(cuid())
   email         String           @unique
@@ -31,13 +47,22 @@ model User {
   residence     String           @default("Gamba")
   isDiaspora    Boolean          @default(false)
   role          Role             @default(SYMPATHISANT)
+  userType      UserType         @default(ENTREPRENEUR)
   statutCotiz   StatusCotisation @default(EN_RETARD)
-  bio           String?
+  bio           String?          
+  skills        String?          
+  companyName   String?          
+  portfolioUrl  String?          
+  resumeUrl     String?          // URL du CV téléversé (PDF/Doc)
+  companyDocUrl String?          // URL du dossier entreprise (Plaquette, RCCM, NIF, etc.)
+  isAjednMember Boolean          @default(true) 
+  
   createdAt     DateTime         @default(now())
   updatedAt     DateTime         @updatedAt
 
   contributions Contribution[]
   projects      Project[]        @relation("ProjectOwner")
+  posts         Post[]
 
   @@map("ajedn_users")
 }
@@ -71,4 +96,20 @@ model Project {
   createdAt   DateTime @default(now())
 
   @@map("ajedn_projects")
+}
+
+model Post {
+  id          String       @id @default(cuid())
+  title       String
+  content     String
+  category    PostCategory @default(ANNONCE)
+  fileUrl     String?      // Pièce jointe à la publication (PDF, Image, etc.)
+  authorId    String
+  author      User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  location    String       @default("Gamba")
+  
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@map("ajedn_posts")
 }
