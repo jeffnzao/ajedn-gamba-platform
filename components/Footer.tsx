@@ -50,7 +50,7 @@ export default function Footer() {
             <li>📍 <strong>Siège :</strong> Gamba, Département de Ndougou</li>
             <li>📞 <strong>Président :</strong> Mboumba Herlhy-Stephen</li>
             <li>💰 <strong>Trésorerie :</strong> Ristelle Ndoki Mondjo</li>
-            <li>✉️ <strong>Email :</strong> contact@ajedn-gamba.org</li>
+            <li>✉️ <strong>Email :</strong> associationajedn@gmail.com</li>
             <li className="pt-2">
               <span className="inline-block bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-1 rounded text-[10px] font-semibold">
                 Permanence : Lun - Sam 08h-17h
